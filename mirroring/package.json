@@ -1,0 +1,15 @@
+{
+  "name": "mirror",
+  "version": "0.0.1",
+  "description": "mirror android devices to web",
+  "main": "mirror.js",
+  "scripts": {
+    "install": "cd lib\\mirror-tcp-stream && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node mirror.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "express-ws": "^4.0.0"
+  }
+}

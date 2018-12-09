@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>Android Mirroring demo</title>
+    <style>
+    canvas {
+      width: auto;
+      height: 90%;
+    }
+    </style>
+  </head>
+  <body>
+    <button onclick="wsavc.key(82)">Menu</button>
+    <button onclick="wsavc.key(24)">Vol+</button>
+    <button onclick="wsavc.key(25)">Vol-</button>
+    <button onclick="wsavc.key(3)">Home</button>
+    <button onclick="wsavc.key(4)">Back</button>
+    <button onclick="wsavc.key(26)">Power</button>
+    <br/>
+    <canvas id="video"></canvas>
+    <script type="text/javascript" src="http-live-player.js"></script>
+    <script>
+        // video frame
+        var canvas = document.getElementById("video");
+
+        // video player
+        var wsavc = new WSAvcPlayer(canvas, "webgl");
+
+        var protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
+        wsavc.connect(protocol + '//' + window.location.host + '/mobile');
+
+        // add mouse control
+        /*
+        canvas.addEventListener("click", (ev) => {
+          wsavc.tap(ev.layerX, ev.layerY);
+        });
+        */
+
+        var startX = 0, startY = 0, endX = 0, endY = 0, duration = 0;
+        var elapsedTime, startTime;
+
+        canvas.addEventListener('mousedown',(ev) => {
+          startX = ev.pageX;
+          startY = ev.pageY;
+          startTime = new Date().getTime();
+          ev.preventDefault();
+        });
+
+        canvas.addEventListener('mousemove',(ev) => {
+          ev.preventDefault();
+        });
+
+        canvas.addEventListener('mouseup',(ev) => {
+          endX = ev.pageX;
+          endY = ev.pageY;
+          elapsedTime = new Date().getTime() - startTime;
+
+          var width = parseFloat(getComputedStyle(canvas).width);
+          var height= parseFloat(getComputedStyle(canvas).height);
+
+          wsavc.swipe(
+            startX * 720 / width,
+            startY * 1280 / height, 
+            endX * 720 / width, 
+            endY * 1280 / height,
+            elapsedTime);
+          ev.preventDefault();
+        });
+
+        // export 
+        window.wsavc = wsavc;
+    </script>
+  </body>
+</html>
