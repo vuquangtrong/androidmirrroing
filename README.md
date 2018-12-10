@@ -15,12 +15,22 @@ Therefore, I have to make my own server: read from tcp, handle multi clients, an
 Install required packages with `npm install` in `mirroring` folder first.
 
 **Run**
-as the project is at just started, the size of a frame is set in `mirror.js`, please modify it to fit yours
+as the project is at just started, the size of a frame is fixed please modify it to fit yours in:
+[mirror.js](https://github.com/vuquangtrong/androidmirrroing/blob/master/mirroring/mirror.js)
 ```
 ws.send(JSON.stringify({
-      action: 'init',
-      width: '720',
-      height: '1280'
-    }));
+  action: 'init',
+  width: '720',
+  height: '1280'
+}));
+```
+[index.html](https://github.com/vuquangtrong/androidmirrroing/blob/master/mirroring/public/index.html)
+```
+wsavc.swipe(
+  startX * 720 / width,
+  startY * 1280 / height, 
+  endX * 720 / width, 
+  endY * 1280 / height,
+  elapsedTime);
 ```
 run `scrcpy.bat` first, then run `mirror.bat`.
